@@ -7,7 +7,6 @@ import { marketplaceServiceDB } from "./marketplace.service";
 const marketplacePostEveryUser = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
         const  {post}  = req.body;
-        console.log(post);
         const result = await marketplaceServiceDB.marketplaceProductPostEveryUserDB(post);
         res.status(200).json({
             message: "Successfully Get Data",

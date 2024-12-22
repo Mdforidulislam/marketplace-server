@@ -23,10 +23,10 @@ const userCreateDB = async (user:IUserRegister) => {
 
 // get user from db
 
-const userGetDB = async (userId: string): Promise<IUserRegister | null> => {
+const userGetDB = async (user_Email: string): Promise<IUserRegister | null> => {
     try {
-        console.log("Searching for user with identifier:", userId);
-        const user = await userModel.UserRegister.findOne({ userId: userId }).exec();
+        console.log("Searching for user with identifier:", user_Email);
+        const user = await userModel.UserRegister.findOne({ userId: user_Email }).exec();
         return user ? (user.toObject() as unknown as IUserRegister) : null;
     } catch (error) {
         console.error('Error fetching user from DB:', error);
@@ -36,9 +36,9 @@ const userGetDB = async (userId: string): Promise<IUserRegister | null> => {
 
 
 
-const getingAllUser = async (userId: string, requestingUserRole: string): Promise<IUserRegister | IUserRegister[] | null> => {
+const getingAllUser = async (user_Email: string, requestingUserRole: string): Promise<IUserRegister | IUserRegister[] | null> => {
     try {
-        console.log("Searching for user with identifier:", userId);
+        console.log("Searching for user with identifier:", user_Email);
 
         if (requestingUserRole === 'admin') {
             const allUsers = await userModel.UserRegister.find().exec();
@@ -47,7 +47,7 @@ const getingAllUser = async (userId: string, requestingUserRole: string): Promis
         } else {
             const user = await userModel.UserRegister.find().exec();
             if (!user) {
-                console.warn(`No user found with ID: ${userId}`);
+                console.warn(`No user found with ID: ${user_Email}`);
                 return null;
             }
             console.log("Non-admin request - returning user data.");

@@ -34,19 +34,19 @@ export const userGet = expressAsyncHandler(async (req: Request, res: Response): 
             return;
         }
 
-        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { userid?: string };
+        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { user_Email?: string };
         console.log("Decoded token:", decoded);
 
         // Check if the decoded token has a user_name property and that it is a string
-        const userId = decoded.userId;
+        const user_Email = decoded.user_Email;
         
-        console.log("first",userId)
-        if (typeof userId !== "string") {
+        console.log("first",user_Email)
+        if (typeof user_Email !== "string") {
             res.status(400).json({ error: "User ID is required" });
             return;
         }
 
-        const user = await userService.userGetDB(userId);
+        const user = await userService.userGetDB(user_Email);
         if (!user) {
             res.status(404).json({ error: "User not found" });
             return;
@@ -79,22 +79,22 @@ const getingAllUser = expressAsyncHandler(async (req: Request, res: Response): P
         }
 
         // Verify the token
-        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { userId?: string; user_role?: string };
+        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { user_Email?: string; user_Role?: string };
 
         console.log("Decoded token all:", decoded);
 
-        const userId = decoded.userId;
-        const userRole = decoded.userRole;
+        const user_Email = decoded.user_Email;
+        const user_Role = decoded.user_Role;
 
-        console.log(userId,userRole,'check there all data ')
+        console.log(user_Email,user_Role,'check there all data ')
 
-        if (typeof userId !== "string" || typeof userRole !== "string") {
+        if (typeof user_Email !== "string" || typeof user_Role !== "string") {
             res.status(400).json({ error: "Invalid token payload" });
             return;
         }
 
         // Fetch user details
-        const user = await userService.getingAllUser(userId, userRole);
+        const user = await userService.getingAllUser(user_Email, user_Role);
         if (!user) {
             res.status(404).json({ error: "User not found" });
             return;

@@ -11,7 +11,7 @@ interface TokenResponse {
 
 const generateAccessToken = (user: any): string => {
     return jwt.sign(
-        { userId: user.userId, userRole: user.userRole, email: user.email },
+        { user_Email: user.user_Email, user_Role: user.user_Role },
         config.SECRECT_KEY as string,
         { expiresIn: "3d" }  
     );
@@ -19,7 +19,7 @@ const generateAccessToken = (user: any): string => {
 
 const generateRefreshToken = (user: any): string => {
     return jwt.sign(
-        { userId: user.userId, userRole: user.userRole, email: user.email },
+        { user_Email: user.user_Email, user_Role: user.user_Role },
         config.SECRECT_KEY as string,  
         { expiresIn: "7d" }
     );
@@ -30,16 +30,16 @@ interface TokenResponse {
     refreshToken: string;
 }
 // login User Service 
-const authticationService = async (userIdOrEmail: string, password: string): Promise<TokenResponse | null>  => {
+const authticationService = async (user_Email: string, user_Password: string): Promise<TokenResponse | null>  => {
     try {
 
-        userIdOrEmail = userIdOrEmail.trim();
-        password = password.trim();
+        user_Email = user_Email.trim();
+        user_Password = user_Password.trim();
 
-        console.log(userIdOrEmail,password)
+        console.log(user_Email,user_Password)
 
         const isExiteuser = await userModel.UserRegister.findOne({
-            $or: [{ email: userIdOrEmail }, { userId: userIdOrEmail }]
+            $or: [{ email: user_Email }]
         });
 
         console.log(isExiteuser,'check is user is Exite')

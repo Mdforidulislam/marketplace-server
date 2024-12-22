@@ -8,9 +8,9 @@ import expressAsyncHandler from "express-async-handler";
 // login Controler 
 const userAuthentication = expressAsyncHandler(async(req: Request, res: Response): Promise<any> => {
     try{
-        const { userIdorEmail, password } = req.body;
+        const { user_Email, user_Password } = req.body;
 
-        const tokens = await authtication.authticationService(userIdorEmail, password);
+        const tokens = await authtication.authticationService(user_Email, user_Password);
 
         if (!tokens) {
              res.status(401).json({ message: "Authentication failed" });

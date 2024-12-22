@@ -2,8 +2,7 @@
 // marketplaceProductPostEveryUserDB
 const marketplaceProductPostEveryUserDB = async (data: any) => {
     try {
-        const { post } = data;
-        console.log(post);
+
         return {
         message: "Successfully Get Data",
         status: 200,
