@@ -1,12 +1,12 @@
 import { Schema, model, Document } from "mongoose";
 import { IUserRegister } from "./user.interface";
-import {nanoid} from "nanoid";
+import { v4 as uuidv4} from 'uuid';
 
 
 const SchemaUserRegister = new Schema<IUserRegister & Document>({
     userId: {
         type: String,
-        default: ()=>nanoid(12),
+        default: () => uuidv4(),
         unique: true,
         trim: true,
     },
@@ -18,7 +18,7 @@ const SchemaUserRegister = new Schema<IUserRegister & Document>({
     },
     password: { 
         type: String, 
-        default: () => nanoid(12),
+        default: () => uuidv4(),
         trim: true,
     },
     name: { 
