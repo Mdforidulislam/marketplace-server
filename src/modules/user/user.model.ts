@@ -1,62 +1,85 @@
-import { Schema, model } from "mongoose";
-import { IUser } from "./user.interface";
+import { Schema, model, Document } from "mongoose";
+import { IUserRegister } from "./user.interface";
+import {nanoid} from "nanoid";
 
-const userSchema = new Schema<IUser>({
-    user_name: { type: String, required: true, trim: true, minlength: 2 },
-    user_Id: { 
-        type: String, 
-        required: true, 
+
+const SchemaUserRegister = new Schema<IUserRegister & Document>({
+    userId: {
+        type: String,
+        default: ()=>nanoid(12),
         unique: true,
         trim: true,
     },
-    user_role: { type: String, enum: ["user", "admin"], default: "user" },
-    user_email: { 
+    email:{
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+    },
+    password: { 
+        type: String, 
+        default: () => nanoid(12),
+        trim: true,
+    },
+    name: { 
         type: String, 
         required: true, 
-        unique: true, 
-        validate: {
-            validator: function (value: string) {
-                return /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(value);
-            },
-            message: "Invalid email format"
+        trim: true,
+    },
+    userRole: { type: String, enum: ["user", "admin"], default: "user" },
+    phoneNumber: { 
+        type: String, 
+        required: true, 
+        trim: true,
+    },
+    skypeProfileUrl: { 
+        type: String, 
+        trim: true,
+
+    },
+    facebookProfileUrl: { 
+        type: String, 
+        required: true,
+        trim: true,
+    },
+    balance: { 
+        type: Number, 
+        default: 0,
+        set: (value: any) =>{
+            return typeof value === "string" ? parseInt(value) : value;
         }
     },
-    user_PhoneNumber: { 
-        type: String, 
-        required: true 
+    verified: { 
+        type: Boolean, 
+        default: false
     },
-    user_Skype_Profile_url: { 
-        type: String, 
-        required: true 
-    },
-    user_Facebook_Profile_url: { 
-        type: String, 
-        required: true 
-    },
-    user_Balance: { 
-        type: Number, 
-        default: 0 
-    },
-    user_Subscription: { 
+    subscription: { 
         type: Boolean, 
         default: false 
     },
-    user_Image: { 
+    image: { 
         type: String, 
         default: null 
     },
-    user_password: { // Include a password field for user authentication
+    address: { // Include a password field for user authentication
         type: String,
-        required: true
+        default: null
+    },
+    country: { 
+        type: String, 
+        default: null 
+    },
+    city: { 
+        type: String,
+        default: null
     },
 }, { timestamps: true });
 
 
 
-// Create the User model
-const User = model<IUser>("User", userSchema);
+const UserRegister = model<IUserRegister & Document>("user", SchemaUserRegister);
 
 // Export the User model
 export const userModel = {
-    User
+    UserRegister
 };

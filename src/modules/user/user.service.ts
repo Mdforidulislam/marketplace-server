@@ -1,13 +1,11 @@
-import { IUser, User } from "./user.interface";
+import { IUserRegister } from "./user.interface";
 import { userModel } from "./user.model";
 
-
-
 // create user db
-const userCreateDB = async (user: IUser) => {
+const userCreateDB = async (user:IUserRegister) => {
     try {
         console.log(user)
-        const result = await userModel.User.create(user);
+        const result = await userModel.UserRegister.create(user);
         return result;
     } catch (error: any) {
 
@@ -25,17 +23,11 @@ const userCreateDB = async (user: IUser) => {
 
 // get user from db
 
-
-
-const userGetDB = async (userId: string): Promise<User | null> => {
+const userGetDB = async (userId: string): Promise<IUserRegister | null> => {
     try {
         console.log("Searching for user with identifier:", userId);
-
-        // Fetch the user document from MongoDB
-        const user = await userModel.User.findOne({ user_name: userId }).exec();
-
-        // Convert document to plain object and cast to `User`
-        return user ? (user.toObject() as unknown as User) : null;
+        const user = await userModel.UserRegister.findOne({ userId: userId }).exec();
+        return user ? (user.toObject() as unknown as IUserRegister) : null;
     } catch (error) {
         console.error('Error fetching user from DB:', error);
         throw new Error('Database error');
@@ -44,26 +36,22 @@ const userGetDB = async (userId: string): Promise<User | null> => {
 
 
 
-const getingAllUser = async (userId: string, requestingUserRole: string): Promise<User | User[] | null> => {
+const getingAllUser = async (userId: string, requestingUserRole: string): Promise<IUserRegister | IUserRegister[] | null> => {
     try {
         console.log("Searching for user with identifier:", userId);
 
         if (requestingUserRole === 'admin') {
-            // Admins can view all users
-            const allUsers = await userModel.User.find().exec();
+            const allUsers = await userModel.UserRegister.find().exec();
             console.log("Admin request - returning all user data.");
-            
-            // Convert each user document to a plain object and cast to User[]
-            return allUsers.map(user => user.toObject() as unknown as User);
+            return allUsers.map(user => user.toObject() as unknown as IUserRegister);
         } else {
-            // Non-admins can only view their own data
-            const user = await userModel.User.findById(userId).exec();
+            const user = await userModel.UserRegister.find().exec();
             if (!user) {
                 console.warn(`No user found with ID: ${userId}`);
                 return null;
             }
             console.log("Non-admin request - returning user data.");
-            return user.toObject() as unknown as User; // Convert to plain object
+            return user as unknown as IUserRegister; 
         }
     } catch (error) {
         console.error('Error fetching user from DB:', error);

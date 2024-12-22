@@ -1,15 +1,31 @@
-
-interface IcreateMarketplacePost{
-    title: string;
+interface Review {
+    postId: string;
+    userName: string;
+    rating: number;
     description: string;
-    price: number;
-    images: string[];
+  }
+  
+  interface Like {
+    postId: string;
+    userId: string;
+    isLiked: boolean;
+  }
+  
+  interface PostDetails {
+    productName: string;
     category: string;
-    location: string;
-    user: string;
-    status: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-
+    description: string;
+    image: string;
+  }
+  
+  interface Post extends PostDetails {
+    userId: string;
+    phone: string;
+    whatsApp: string;
+    address: string;
+    telegram: string;
+    facebook: string;
+    reviews: Review[];
+    likes: Like[];
+  }
+  

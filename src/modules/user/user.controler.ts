@@ -34,11 +34,12 @@ export const userGet = expressAsyncHandler(async (req: Request, res: Response): 
             return;
         }
 
-        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { user_name?: string };
+        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { userid?: string };
         console.log("Decoded token:", decoded);
 
         // Check if the decoded token has a user_name property and that it is a string
-        const userId = decoded.user_name;
+        const userId = decoded.userId;
+        
         console.log("first",userId)
         if (typeof userId !== "string") {
             res.status(400).json({ error: "User ID is required" });
@@ -78,14 +79,14 @@ const getingAllUser = expressAsyncHandler(async (req: Request, res: Response): P
         }
 
         // Verify the token
-        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { user_name?: string; user_role?: string };
+        const decoded = jwt.verify(token, config.SECRECT_KEY as string) as JwtPayload & { userId?: string; user_role?: string };
 
-        console.log("Decoded token:", decoded);
+        console.log("Decoded token all:", decoded);
 
-        const userId = decoded.user_name;
-        const userRole = decoded.user_role;
+        const userId = decoded.userId;
+        const userRole = decoded.userRole;
 
-        console.log(userId,userRole,'check therole ')
+        console.log(userId,userRole,'check there all data ')
 
         if (typeof userId !== "string" || typeof userRole !== "string") {
             res.status(400).json({ error: "Invalid token payload" });
