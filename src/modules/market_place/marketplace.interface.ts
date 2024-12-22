@@ -13,18 +13,20 @@ export interface TLike {
 
 export interface TPostDetails {
   productName: string;
+  author_id: string;
   category: string;
   description: string;
   image: string;
 }
 
 export interface TPost extends TPostDetails {
-  userId: string;
-  phone: string;
-  whatsApp: string;
-  address: string;
-  telegram: string;
-  facebook: string;
+  userId?: string;
+  phone?: string;
+  whatsApp?: string;
+  address?: string;
+  telegram?: string;
+  facebook?: string;
+  likesCount?: number;
   reviews: TReview[];
   likes: TLike[];
 }

@@ -43,7 +43,7 @@ const SchemaUserRegister = new Schema<IUserRegister & Document>(
       trim: true,
     },
     user_Telegram: {
-      type: Boolean,
+      type: String,
       default: false,
     },
     user_Image: {

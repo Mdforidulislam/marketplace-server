@@ -9,8 +9,8 @@ export interface IUserRegister extends IUserLogin {
     user_PhoneNumber: string;
     user_Facebook: string;
     user_Skype?: string;
-    user_Telegram?: boolean;  
-    user_Image?: boolean;
+    user_Telegram?: string;  
+    user_Image?: string;
     user_WhatsApp?: string;
     user_blance?: number;
     user_Address?: string;
