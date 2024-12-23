@@ -59,7 +59,6 @@ const marketplaceCommentUpdate = expressAsyncHandler(async (req: Request, res: R
 const marketplaceLikeUpdate = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
         const { post } = req.body;
-        console.log(post);
         const result = await marketplaceServiceDB.marketplaceProductLikeUpdateDB(post);
         res.status(200).json({
             message: "Successfully Get Data",

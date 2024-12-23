@@ -1,16 +1,21 @@
 import express, { Application, NextFunction, Request, Response } from "express";
+import cors from 'cors'
 import { userRoutes } from "./modules/user/user.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { marketplaceRoutes } from "./modules/market_place/marketplace.routes";
 
 const app = express();
 app.use(express.json());
+const corsOptions = {
+  origin: 'http://localhost:5173', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], 
+  credentials: true,
+}
+app.use(cors(corsOptions))
 
-
-
-
+// user route
 app.use("/api/v1",userRoutes);
-
 // authentication route 
 app.use("/api/v1",authRouter);
 

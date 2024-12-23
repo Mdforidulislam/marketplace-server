@@ -78,33 +78,94 @@ const marketplaceProductGetEveryUserDB = async () => {
 
 const marketplaceProductCommentUpdateDB = async (data: any) => {
     try {
-        const { postId, ...comment } = data;
-        // console.log(postId, ...comment);
-        const postRes = await marketplace.Post.findOneAndUpdate({ _id: postId }, { $push: { reviews: comment } }, { new: true });
+        const { postId, user_id, rating, description } = data;
+
+        // Fetch the post
+        const post = await marketplace.Post.findById(postId);
+
+        if (!post) {
+            return { message: "Post not found", status: 404 };
+        }
+
+        // Find if the user has already commented on the post
+        const existingCommentIndex = post.reviews.findIndex((item) => item?.user_id === user_id);
+
+        if (existingCommentIndex > -1) {
+            // Update the existing comment if found
+            post.reviews[existingCommentIndex].rating = rating;
+            post.reviews[existingCommentIndex].description = description;
+        } else {
+            // Add a new comment if no existing comment is found
+            const user = await UserRegister.findOne({ userId: user_id });
+            const userName = user ? user.user_Name : 'Unknown';
+            post.reviews.push({ user_id, userName, rating, description });
+        }
+
+        // Save the updated post
+        const updatedPost = await post.save();
+
         return {
-        message: "Successfully Get Data",
-        status: 200,
-        data: postRes
+            message: "Successfully updated comments",
+            status: 200,
+            data: updatedPost,
         };
     } catch (error) {
         console.error(error);
-        return { error: "Internal Server Error" };
+        return { message: "Internal Server Error", status: 500, error: error.message };
     }
-}
+};
 
+
+// marketplaceProductLikeUpdateDB
 // marketplaceProductLikeUpdateDB
 const marketplaceProductLikeUpdateDB = async (data: any) => {
     try {
-        const {  postId , ...like } = data;
-        const postRes = await marketplace.Post.findOneAndUpdate({ _id: postId }, { $push: {likes: like }, $inc: { likesCount: 1 } }, { new: true });
+        const { postId, user_Id, isLiked } = data;
+
+        // Fetch the post
+        const post = await marketplace.Post.findById(postId);
+
+        if (!post) {
+            return { message: "Post not found", status: 404 };
+        }
+
+        // Find the like index
+        const existingLikeIndex = post.likes.findIndex((item) => item.user_Id === user_Id);
+
+        if (existingLikeIndex > -1) {
+            // If user already liked/unliked the post, update their isLiked value
+            const existingLike = post.likes[existingLikeIndex];
+            if (existingLike.isLiked !== isLiked) {
+                post.likes[existingLikeIndex].isLiked = isLiked;
+
+                // Update likesCount
+                if (isLiked) {
+                    post.likesCount = (post.likesCount || 0) + 1;
+                } else {
+                    post.likesCount = Math.max((post.likesCount || 0) - 1, 0);
+                }
+            }
+        } else {
+            // Add a new like if the user hasn't interacted before
+            post.likes.push({ postId, user_Id, isLiked });
+
+            // Increment likesCount if the new like is positive
+            if (isLiked) {
+                post.likesCount = (post.likesCount || 0) + 1;
+            }
+        }
+
+        // Save the updated post
+        const updatedPost = await post.save();
+
         return {
-        message: "Successfully Get Data",
-        status: 200,
-        data: postRes
+            message: "Successfully updated likes",
+            status: 200,
+            data: updatedPost,
         };
     } catch (error) {
         console.error(error);
-        return { error: "Internal Server Error" };
+        return { message: "Internal Server Error", status: 500, error: error.message };
     }
 };
 

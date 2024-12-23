@@ -10,9 +10,8 @@ import { refreshAccessToken } from './refeshToken';
 const Router = express.Router();
 
 
-Router.get(
-    '/auth',
-    middelwareAuth.authenticateUser(),            
+Router.post(
+    '/auth',          
     authticationControler.userAuthentication    
 );
 

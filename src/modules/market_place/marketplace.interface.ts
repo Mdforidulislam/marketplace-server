@@ -1,4 +1,5 @@
 export interface TReview {
+  user_id: any;
   postId: string;
   userName: string;
   rating: number;
@@ -7,7 +8,7 @@ export interface TReview {
 
 export interface TLike {
   postId: string;
-  userId: string;
+  user_Id: string;
   isLiked: boolean;
 }
 

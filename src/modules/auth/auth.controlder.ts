@@ -6,38 +6,32 @@ import config from "../../config";
 import expressAsyncHandler from "express-async-handler";
 
 // login Controler 
-const userAuthentication = expressAsyncHandler(async(req: Request, res: Response): Promise<any> => {
-    try{
+const userAuthentication = expressAsyncHandler(async (req: Request, res: Response): Promise<any> => {
+    try {
         const { user_Email, user_Password } = req.body;
 
         const tokens = await authtication.authticationService(user_Email, user_Password);
 
         if (!tokens) {
-             res.status(401).json({ message: "Authentication failed" });
-             return;
+           return res.status(401).json({ message: "Authentication failed" }); 
         }
-    
-        const { accessToken, refreshToken } = tokens;
 
-        // Set the refresh token in an HTTP-only cookie
+        const { accessToken, refreshToken } = tokens;
+        console.log(accessToken, refreshToken)
+
+        // // Set the refresh token in an HTTP-only cookie
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", 
-            maxAge: 7 * 24 * 60 * 60 * 1000 
+            secure: process.env.NODE_ENV === "production",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 1 week
         });
-    
-        res.json({
-             message: "Successfully Login ",
-             data: {
-                accessToken 
-             }
 
-            });
-
-    }catch(error){
-            console.log(error)
+         res.status(200).json({ accessToken });
+    } catch (error) {
+        console.error(error); // Log the error
+        res.status(500).json({ message: "Internal server error" }); // Send server error response
     }
-})
+});
 
 //  logOut Controler 
 

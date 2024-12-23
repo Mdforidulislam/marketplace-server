@@ -35,7 +35,7 @@ const PostSchema = new Schema<TPost & Document>({
       type: String,
       required: true,
     },
-    userName: {
+    user_id: {
       type: String,
       required: true,
     },
@@ -55,11 +55,7 @@ const PostSchema = new Schema<TPost & Document>({
     default: 0,
   },
   likes: [{
-    postId: {
-      type: String,
-      required: true,
-    },
-    userId: {
+    user_Id: {
       type: String,
       required: true,
     },

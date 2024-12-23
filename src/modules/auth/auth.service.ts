@@ -36,13 +36,10 @@ const authticationService = async (user_Email: string, user_Password: string): P
         user_Email = user_Email.trim();
         user_Password = user_Password.trim();
 
-        console.log(user_Email,user_Password)
-
         const isExiteuser = await userModel.UserRegister.findOne({
-            $or: [{ email: user_Email }]
+            $or: [{ user_Email: user_Email }]
         });
 
-        console.log(isExiteuser,'check is user is Exite')
         // If the user does not exist or the password is incorrect
         if (!isExiteuser) {
             console.warn("User not found");
@@ -52,7 +49,7 @@ const authticationService = async (user_Email: string, user_Password: string): P
         // Generate tokens
         const accessToken = generateAccessToken(isExiteuser);
         const refreshToken = generateRefreshToken(isExiteuser);
-        console.log(accessToken,refreshToken)
+
 
         return { accessToken, refreshToken };
 
