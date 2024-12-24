@@ -18,7 +18,7 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.marketplace_server }}
 
       # Step 3: Install TypeScript and dependencies on VPS
       - name: Install TypeScript and dependencies on VPS
