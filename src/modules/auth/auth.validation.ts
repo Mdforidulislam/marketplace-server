@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { LoginCredentials } from "./auth.interface";
-import jwt from 'jsonwebtoken';
-import config from "../../config";
 
-// userAuthentication
 const authenticateUser = () => async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const loginCreadiencial =  req.body;
@@ -19,12 +15,6 @@ const authenticateUser = () => async (req: Request, res: Response, next: NextFun
         res.status(401).json({ message: error });
     }
 };
-
-
-
-
-
-
 
 
 export const middelwareAuth = {

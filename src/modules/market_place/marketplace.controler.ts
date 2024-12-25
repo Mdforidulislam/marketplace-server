@@ -59,7 +59,7 @@ const marketplaceGetPostSingleUser = expressAsyncHandler(async (req: Request, re
 const marketplaceCommentUpdate = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
         const { post } = req.body;
-        console.log(post);
+        // console.log(post);
         const result = await marketplaceServiceDB.marketplaceProductCommentUpdateDB(post);
         res.status(200).json({
             message: "Successfully Get Data",

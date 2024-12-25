@@ -4,7 +4,6 @@ import { marketplaceControl } from './marketplace.controler';
 const router = express.Router();
 
 
-// handle router here 
 router.post("/create-post", marketplaceControl.marketplacePostEveryUser);
 router.get("/get-single-post", marketplaceControl.marketplaceGetPostSingleUser);
 router.get("/get-all-post", marketplaceControl.marketplaceGetPostEveryUser);

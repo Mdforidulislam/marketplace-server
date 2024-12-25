@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { authtication } from "./auth.service";
-import { LoginCredentials } from "./auth.interface";
 import jwt from "jsonwebtoken";
 import config from "../../config";
 import expressAsyncHandler from "express-async-handler";
@@ -29,7 +28,7 @@ const userAuthentication = expressAsyncHandler(async (req: Request, res: Respons
          res.status(200).json({ accessToken });
     } catch (error) {
         console.error(error); // Log the error
-        res.status(500).json({ message: "Internal server error" }); // Send server error response
+        res.status(500).json({ message: "Internal server error" }); 
     }
 });
 
