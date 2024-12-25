@@ -1,0 +1,52 @@
+name: Deploy Marketplace Server to VPS
+
+on:
+  push:
+    branches:
+      - main   # Trigger deployment on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up SSH
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+
+      # Step 3: Install TypeScript and dependencies on VPS
+      - name: Install TypeScript and dependencies on VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no root@62.72.29.237 "
+            # Create the folder for the application
+            mkdir -p /var/www/marketplace/marketplace_server &&
+            cd /var/www/marketplace/marketplace_server &&
+            
+            # Clone the repository (replace with your actual GitHub repository)
+            git clone https://github.com/yourusername/marketplace_server.git . &&
+            
+            # Install Node.js dependencies
+            npm install &&
+            
+            # Install TypeScript globally (if not already installed)
+            npm install -g typescript &&
+            
+            # Compile TypeScript code to JavaScript
+            tsc &&
+            
+            # Install PM2 to manage the application
+            npm install -g pm2 &&
+            
+            # Start the application using PM2 (starting the compiled JavaScript file)
+            pm2 start dist/app.js --name marketplace_server
+          "
+      # Step 4: Clean up PM2 processes (optional)
+      - name: Clean up PM2 processes
+        run: |
+          ssh root@62.72.29.237 "pm2 save"
