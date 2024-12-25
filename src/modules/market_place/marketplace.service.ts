@@ -78,8 +78,8 @@ const marketplaceProductGetEveryUserDB = async () => {
 
 const marketplaceProductCommentUpdateDB = async (data: any) => {
     try {
-        const { postId, user_id, rating, description } = data;
-
+        const { postId, userId, rating, description } = data;
+        console.log("Post data received:", data);
         // Fetch the post
         const post = await marketplace.Post.findById(postId);
 
@@ -88,7 +88,7 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
         }
 
         // Find if the user has already commented on the post
-        const existingCommentIndex = post.reviews.findIndex((item) => item?.user_id === user_id);
+        const existingCommentIndex = post.reviews.findIndex((item) => item?.user_id === userId);
 
         if (existingCommentIndex > -1) {
             // Update the existing comment if found
@@ -96,9 +96,9 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
             post.reviews[existingCommentIndex].description = description;
         } else {
             // Add a new comment if no existing comment is found
-            const user = await UserRegister.findOne({ userId: user_id });
+            const user = await UserRegister.findOne({ userId: userId });
             const userName = user ? user.user_Name : 'Unknown';
-            post.reviews.push({ user_id, postId, userName, rating, description });
+            post.reviews.push({ user_id:userId, postId, userName, rating, description });
         }
 
         // Save the updated post
@@ -116,7 +116,6 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
 };
 
 
-// marketplaceProductLikeUpdateDB
 // marketplaceProductLikeUpdateDB
 const marketplaceProductLikeUpdateDB = async (data: any) => {
     try {
