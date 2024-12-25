@@ -36,6 +36,24 @@ const marketplaceGetPostEveryUser = expressAsyncHandler(async (req: Request, res
 });
 
 
+const marketplaceGetPostSingleUser = expressAsyncHandler(async (req: Request, res: Response) => {
+    try {
+        const { post } = req.body;
+        console.log(post);
+        const result = await marketplaceServiceDB.marketplaceProductGetSingleUserDB(post);
+        res.status(200).json({
+            message: "Successfully Get Data",
+            status: 200,
+            data: result
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+);
+
+
 // comment update the user post
 const marketplaceCommentUpdate = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
@@ -74,4 +92,4 @@ const marketplaceLikeUpdate = expressAsyncHandler(async (req: Request, res: Resp
 
 
 
-export const marketplaceControl =  {marketplacePostEveryUser,marketplaceGetPostEveryUser,marketplaceCommentUpdate,marketplaceLikeUpdate};
+export const marketplaceControl =  {marketplacePostEveryUser,marketplaceGetPostEveryUser,marketplaceCommentUpdate,marketplaceLikeUpdate,marketplaceGetPostSingleUser};

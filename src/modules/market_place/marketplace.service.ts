@@ -73,6 +73,63 @@ const marketplaceProductGetEveryUserDB = async () => {
     }
 };
 
+const marketplaceProductGetSingleUserDB = async (data: any) => {
+    try {
+        const { postId } = data;
+        const post = await marketplace.Post.findById(postId);
+
+        if (!post) {
+            return { message: "Post not found", status: 404 };
+        }
+
+        const user = await UserRegister.findOne({ userId: post.author_id as string });
+
+        if (user) {
+            const {
+                user_Name,
+                user_PhoneNumber,
+                user_Facebook,
+                user_Skype,
+                user_Telegram,
+                user_Image,
+                user_WhatsApp,
+                user_blance,
+                user_Address,
+                user_varified,
+                country,
+                city
+            } = user;
+            return {
+                message: "Successfully Get Data",
+                status: 200,
+                data: {
+                    ...post.toObject(),
+                    user_Name,
+                    user_PhoneNumber,
+                    user_Facebook,
+                    user_Skype,
+                    user_Telegram,
+                    user_Image,
+                    user_WhatsApp,
+                    user_blance,
+                    user_Address,
+                    user_varified,
+                    country,
+                    city,
+                },
+            };
+        } else {
+            return {
+                message: "Successfully Get Data",
+                status: 200,
+                data: post.toObject(),
+            };
+        }
+    } catch (error) {
+        console.error(error);
+        return { error: "Internal Server Error" };
+    }
+}
 
 // marketplace product comment update
 
@@ -171,4 +228,4 @@ const marketplaceProductLikeUpdateDB = async (data: any) => {
 
 
 
-export const marketplaceServiceDB =  {marketplaceProductPostEveryUserDB,marketplaceProductGetEveryUserDB,marketplaceProductLikeUpdateDB,marketplaceProductCommentUpdateDB};
+export const marketplaceServiceDB =  { marketplaceProductPostEveryUserDB,marketplaceProductGetEveryUserDB,marketplaceProductLikeUpdateDB,marketplaceProductCommentUpdateDB , marketplaceProductGetSingleUserDB};
