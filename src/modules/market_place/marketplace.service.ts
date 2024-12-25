@@ -75,8 +75,7 @@ const marketplaceProductGetEveryUserDB = async () => {
 
 const marketplaceProductGetSingleUserDB = async (data: any) => {
     try {
-        const { postId } = data;
-        const post = await marketplace.Post.findById(postId);
+        const post = await marketplace.Post.findById(data);
 
         if (!post) {
             return { message: "Post not found", status: 404 };

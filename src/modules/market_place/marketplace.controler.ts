@@ -38,9 +38,10 @@ const marketplaceGetPostEveryUser = expressAsyncHandler(async (req: Request, res
 
 const marketplaceGetPostSingleUser = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
-        const { post } = req.body;
-        console.log(post);
-        const result = await marketplaceServiceDB.marketplaceProductGetSingleUserDB(post);
+        const  {id}  = req.query;
+        console.log(id)
+     
+        const result = await marketplaceServiceDB.marketplaceProductGetSingleUserDB(id);
         res.status(200).json({
             message: "Successfully Get Data",
             status: 200,
