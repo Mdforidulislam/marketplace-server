@@ -98,7 +98,7 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
             // Add a new comment if no existing comment is found
             const user = await UserRegister.findOne({ userId: user_id });
             const userName = user ? user.user_Name : 'Unknown';
-            post.reviews.push({ user_id, userName, rating, description });
+            post.reviews.push({ user_id, postId, userName, rating, description });
         }
 
         // Save the updated post
@@ -111,7 +111,7 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
         };
     } catch (error) {
         console.error(error);
-        return { message: "Internal Server Error", status: 500, error: error.message };
+        return { message: "Internal Server Error", status: 500, error: (error as Error).message };
     }
 };
 
@@ -165,7 +165,7 @@ const marketplaceProductLikeUpdateDB = async (data: any) => {
         };
     } catch (error) {
         console.error(error);
-        return { message: "Internal Server Error", status: 500, error: error.message };
+        return { message: "Internal Server Error", status: 500, error: (error as Error).message };
     }
 };
 

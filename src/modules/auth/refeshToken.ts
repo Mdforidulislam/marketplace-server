@@ -13,16 +13,21 @@ export const refreshAccessToken = expressAsyncHandler(async (req: Request, res: 
     }
 
     try {
-        // Verify the refresh token
+        
         const decoded = jwt.verify(refreshToken, config.SECRECT_KEY as string) as jwt.JwtPayload;
         console.log(decoded, 'check decoded refresh token');
 
-        // Generate a new access token
+
         const newAccessToken = jwt.sign(
-            { user_Name: decoded.user_Name, user_Role: decoded.user_Role, user_Email: decoded.user_Email },
+            {
+              user_Name: decoded.user_Name,
+              user_Role: decoded.user_Role, 
+              user_Email: decoded.user_Email,
+            },
             config.SECRECT_KEY as string,
-            { expiresIn: "15m" }  // Short-lived access token (e.g., 15 minutes)
-        );
+            { expiresIn: "15m" }
+          );
+          
 
         // Respond with the new access token
         res.json({ accessToken: newAccessToken });

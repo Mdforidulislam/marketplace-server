@@ -1,7 +1,6 @@
 
 import express from 'express';
 import { authticationControler } from './auth.controlder';
-import { middelwareAuth } from './auth.validation';
 import { refreshAccessToken } from './refeshToken';
 
 

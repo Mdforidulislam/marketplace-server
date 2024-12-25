@@ -53,6 +53,7 @@ const SchemaUserRegister = new Schema<IUserRegister & Document>(
     user_WhatsApp: {
       type: String,
       default: null,
+      required: true,
       trim: true,
     },
     user_blance: {
@@ -64,6 +65,7 @@ const SchemaUserRegister = new Schema<IUserRegister & Document>(
     user_Address: {
       type: String,
       default: null,
+      required: true,
       trim: true,
     },
     user_varified: {
