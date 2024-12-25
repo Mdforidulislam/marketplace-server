@@ -1,13 +1,13 @@
 export interface TReview {
   user_id: any;
-  postId: string;
+  postId?: string;
   userName: string;
   rating: number;
   description: string;
 }
 
 export interface TLike {
-  postId: string;
+  postId?: string;
   user_Id: string;
   isLiked: boolean;
 }

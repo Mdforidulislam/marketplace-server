@@ -167,7 +167,7 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
         };
     } catch (error) {
         console.error(error);
-        return { message: "Internal Server Error", status: 500, error: error.message };
+        return { message: "Internal Server Error", status: 500, error: (error as Error).message };
     }
 };
 
@@ -221,7 +221,7 @@ const marketplaceProductLikeUpdateDB = async (data: any) => {
         };
     } catch (error) {
         console.error(error);
-        return { message: "Internal Server Error", status: 500, error: error.message };
+        return { message: "Internal Server Error", status: 500, error: (error as Error).message };
     }
 };
 
