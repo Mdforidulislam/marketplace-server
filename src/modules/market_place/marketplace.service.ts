@@ -81,8 +81,8 @@ const marketplaceProductGetSingleUserDB = async (data: any) => {
             return { message: "Post not found", status: 404 };
         }
 
-        const user = await UserRegister.findOne({ userId: post.author_id as string });
-
+        const user = await UserRegister.findOne({ user_Id: post.author_id as string });
+        console.log(user,'get user')
         if (user) {
             const {
                 user_Name,
