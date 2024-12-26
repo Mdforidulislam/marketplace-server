@@ -4,8 +4,9 @@ import { userModel } from "./user.model";
 // create user db
 const userCreateDB = async (user:IUserRegister) => {
     try {
-        console.log(user)
+        console.log(user,"after register user");
         const result = await userModel.UserRegister.create(user);
+        console.log(  result,"result register user here");
         return result;
     } catch (error: any) {
 

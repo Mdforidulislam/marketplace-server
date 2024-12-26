@@ -9,7 +9,6 @@ const createUser = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
 
         const {user} = req.body;
-        console.log(user)
         const result = await userService.userCreateDB(user);
         res.status(200).json({ 
             message: "Successfully Get Data",
