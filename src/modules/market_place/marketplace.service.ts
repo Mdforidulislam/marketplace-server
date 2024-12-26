@@ -73,6 +73,7 @@ const marketplaceProductGetEveryUserDB = async () => {
     }
 };
 
+// post with single user data(iftee)
 const marketplaceProductGetSingleUserDB = async (data: any) => {
     try {
         const post = await marketplace.Post.findById(data);
@@ -85,6 +86,8 @@ const marketplaceProductGetSingleUserDB = async (data: any) => {
         console.log(user,'get user')
         if (user) {
             const {
+                user_Id,
+                user_Email,
                 user_Name,
                 user_PhoneNumber,
                 user_Facebook,
@@ -103,6 +106,8 @@ const marketplaceProductGetSingleUserDB = async (data: any) => {
                 status: 200,
                 data: {
                     ...post.toObject(),
+                    user_Id,
+                    user_Email,
                     user_Name,
                     user_PhoneNumber,
                     user_Facebook,

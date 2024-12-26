@@ -21,7 +21,7 @@ const PostSchema = new Schema<TPost & Document>({
   description: {
     type: String,
     required: true,
-    minlength: 10, // Minimum length for description
+    minlength: 10, 
   },
   image: {
     type: String,
