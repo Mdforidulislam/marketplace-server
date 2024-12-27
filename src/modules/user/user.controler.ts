@@ -9,7 +9,6 @@ const createUser = expressAsyncHandler(async (req: Request, res: Response) => {
     try {
 
         const {user} = req.body;
-        console.log(user)
         const result = await userService.userCreateDB(user);
         res.status(200).json({ 
             message: "Successfully Get Data",
@@ -40,7 +39,6 @@ export const userGet = expressAsyncHandler(async (req: Request, res: Response): 
         // Check if the decoded token has a user_name property and that it is a string
         const user_Email = decoded.user_Email;
         
-        console.log("first",user_Email)
         if (typeof user_Email !== "string") {
             res.status(400).json({ error: "User ID is required" });
             return;
@@ -86,7 +84,6 @@ const getingAllUser = expressAsyncHandler(async (req: Request, res: Response): P
         const user_Email = decoded.user_Email;
         const user_Role = decoded.user_Role;
 
-        console.log(user_Email,user_Role,'check there all data ')
 
         if (typeof user_Email !== "string" || typeof user_Role !== "string") {
             res.status(400).json({ error: "Invalid token payload" });

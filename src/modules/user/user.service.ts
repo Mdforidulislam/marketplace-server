@@ -4,7 +4,6 @@ import { userModel } from "./user.model";
 // create user db
 const userCreateDB = async (user:IUserRegister) => {
     try {
-        console.log(user)
         const result = await userModel.UserRegister.create(user);
         return result;
     } catch (error: any) {
@@ -25,7 +24,6 @@ const userCreateDB = async (user:IUserRegister) => {
 
 const userGetDB = async (user_Email: string): Promise<IUserRegister | null> => {
     try {
-        console.log("Searching for user with identifier:", user_Email);
         const user = await userModel.UserRegister.findOne({ userId: user_Email }).exec();
         return user ? (user.toObject() as unknown as IUserRegister) : null;
     } catch (error) {
@@ -38,11 +36,9 @@ const userGetDB = async (user_Email: string): Promise<IUserRegister | null> => {
 
 const getingAllUser = async (user_Email: string, requestingUserRole: string): Promise<IUserRegister | IUserRegister[] | null> => {
     try {
-        console.log("Searching for user with identifier:", user_Email);
 
         if (requestingUserRole === 'admin') {
             const allUsers = await userModel.UserRegister.find().exec();
-            console.log("Admin request - returning all user data.");
             return allUsers.map(user => user.toObject() as unknown as IUserRegister);
         } else {
             const user = await userModel.UserRegister.find().exec();
@@ -50,7 +46,6 @@ const getingAllUser = async (user_Email: string, requestingUserRole: string): Pr
                 console.warn(`No user found with ID: ${user_Email}`);
                 return null;
             }
-            console.log("Non-admin request - returning user data.");
             return user as unknown as IUserRegister; 
         }
     } catch (error) {
