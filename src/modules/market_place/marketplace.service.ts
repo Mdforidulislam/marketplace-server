@@ -1,5 +1,48 @@
 import { UserRegister } from "../user/user.model";
 import { marketplace } from "./marketplace.model";
+import Categories from "./category.model";
+
+// category
+const marketplaceCategoryPost = async (name: string) => {
+  try {
+    console.log("from service", name);
+
+    const categoryName = name.toLowerCase();
+    console.log("from service", categoryName);
+
+    const existingCategory = await Categories.findOne({
+      name: {
+        $regex: new RegExp(
+          `^${categoryName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`,
+          "i"
+        ),
+      },
+    });
+
+    if (existingCategory) {
+      return { error: "Category already exists." };
+    }
+
+    const newCategory = new Categories({ name: name });
+    await newCategory.save();
+    return { data: newCategory, status: 200 };
+  } catch (error) {
+    console.error(error);
+    return { error: "Internal Server Error" };
+  }
+};
+
+// get all categories
+export const marketplaceGetCategories = async () => {
+  try {
+    const categories = await Categories.find({});
+    return { data: categories, status: 200 };
+  } catch (error) {
+    console.error(error);
+    return { error: "Internal Server Error" };
+  }
+};
+
 
 // marketplaceProductPostEveryUserDB
 const marketplaceProductPostEveryUserDB = async (data: any) => {
@@ -254,4 +297,5 @@ export const marketplaceServiceDB = {
   marketplaceProductLikeUpdateDB,
   marketplaceProductCommentUpdateDB,
   marketplaceProductGetSingleUserDB,
+  marketplaceCategoryPost,
 };
