@@ -31,7 +31,6 @@ export interface TPost extends TPostDetails {
   likesCount?: number;
   reviews: TReview[];
   likes: TLike[];
-  productPrice: string;
 }
 
 
