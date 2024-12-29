@@ -1,18 +1,25 @@
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from 'cors'
 import { userRoutes } from "./modules/user/user.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { marketplaceRoutes } from "./modules/market_place/marketplace.routes";
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "https://megaproxy.us",
+    credentials: true, 
+  })
+);
 const corsOptions = {
-  origin: 'https://megaproxy.us', 
+  origin: 'https://megaproxy.us',
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'], 
-  credentials: true,
-}
-app.use(cors(corsOptions))
+};
 
 // user route
 app.use("/api/v1",userRoutes);

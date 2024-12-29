@@ -5,7 +5,7 @@ import expressAsyncHandler from "express-async-handler";
 
 export const refreshAccessToken = expressAsyncHandler(async (req: Request, res: Response): Promise<void> => {
     const refreshToken = req.cookies?.refreshToken;
-    // console.log(refreshToken, 'check is refresh token');
+    console.log(refreshToken, 'check is refresh token');
 
     if (!refreshToken) {
         res.status(403).json({ message: "Refresh token not provided" });

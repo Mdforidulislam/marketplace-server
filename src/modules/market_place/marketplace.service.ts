@@ -46,6 +46,7 @@ export const marketplaceGetCategories = async () => {
 
 // marketplaceProductPostEveryUserDB
 const marketplaceProductPostEveryUserDB = async (data: any) => {
+
   try {
     const postRes = new marketplace.Post(data);
 
@@ -167,6 +168,7 @@ const marketplaceProductGetSingleUserDB = async (data: any) => {
           user_varified,
           country,
           city,
+          productPrice: post.productPrice,
         },
       };
     } else {
@@ -174,6 +176,7 @@ const marketplaceProductGetSingleUserDB = async (data: any) => {
         message: "Successfully Get Data",
         status: 200,
         data: post.toObject(),
+        productPrice: post.productPrice,
       };
     }
   } catch (error) {
@@ -238,10 +241,14 @@ const marketplaceProductCommentUpdateDB = async (data: any) => {
 const marketplaceProductLikeUpdateDB = async (data: any) => {
   try {
     const { postId, user_Id, isLiked } = data;
+    console.log("isLiked", isLiked);
 
     const isLikedBool = isLiked === "true";
+    console.log("isLikedBool", isLiked);
 
     const post = await marketplace.Post.findById(postId);
+    console.log("like update post", post);
+    
     console.log(
       "Trying to update post:",
       post?.likes.map((like) => like.isLiked)
@@ -263,7 +270,7 @@ const marketplaceProductLikeUpdateDB = async (data: any) => {
         if (isLikedBool) {
           post.likesCount = (post.likesCount || 0) + 1;
         } else {
-          post.likesCount = Math.max((post.likesCount || 0) - 1, 0); // Prevent negative count
+          post.likesCount = Math.max((post.likesCount || 0) - 1, 0);
         }
       }
     } else {

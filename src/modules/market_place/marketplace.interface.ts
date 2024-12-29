@@ -18,6 +18,7 @@ export interface TPostDetails {
   category: string;
   description: string;
   image: string;
+  productPrice: string;
 }
 
 export interface TPost extends TPostDetails {
