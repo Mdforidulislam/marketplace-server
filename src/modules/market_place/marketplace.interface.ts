@@ -31,3 +31,8 @@ export interface TPost extends TPostDetails {
   reviews: TReview[];
   likes: TLike[];
 }
+
+
+export interface TCategory {
+  name?: string;
+}
