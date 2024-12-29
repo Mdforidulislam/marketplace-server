@@ -6,10 +6,12 @@ import Category from "./category.model";
 // Mongoose schema for TPost
 const PostSchema = new Schema<TPost & Document>(
   {
-    // Product Information (from TPostDetails)
     productName: {
       type: String,
       required: true,
+    },
+    productPrice: {
+      type: String,
     },
     author_id: {
       type: String,
@@ -29,7 +31,6 @@ const PostSchema = new Schema<TPost & Document>(
       required: true,
       trim: true,
     },
-    // Reviews and Likes (arrays of TReview and TLike)
     reviews: [
       {
         postId: {
