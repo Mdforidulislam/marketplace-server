@@ -13,6 +13,15 @@ router.post("/add-category", marketplaceControl.marketplacePostCategory);
 router.get("/get-all-categories", marketplaceControl.marketplaceGetAllCategories);
 
 
+// email send to user
+router.post("/send-email", marketplaceControl.marketplaceSendEmail);
+// email geting response
+router.post("/get-email", marketplaceControl.marketplaceGetEmail);
+// add custom doamin or email to send email
+
+
+
+
 export const marketplaceRoutes = router;
 
 

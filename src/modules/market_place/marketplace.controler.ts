@@ -153,6 +153,44 @@ const marketplaceLikeUpdate = expressAsyncHandler(
   }
 );
 
+
+// send email to user
+const marketplaceSendEmail = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body;
+
+      console.log(email)
+
+      res.status(200).json({
+        message: "Successfully Get Data",
+        status: 200,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+// get email from user reponse 
+const marketplaceGetEmail = expressAsyncHandler(async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    console.log(email);
+
+    res.status(200).json({
+      message: "Successfully Get Data",
+      status: 200,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+
 export const marketplaceControl = {
   marketplacePostEveryUser,
   marketplaceGetPostEveryUser,
@@ -160,5 +198,7 @@ export const marketplaceControl = {
   marketplaceLikeUpdate,
   marketplaceGetPostSingleUser,
   marketplacePostCategory,
-  marketplaceGetAllCategories
+  marketplaceGetAllCategories,
+  marketplaceSendEmail,
+  marketplaceGetEmail
 };

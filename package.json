@@ -23,6 +23,7 @@
     "express": "^4.21.1",
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
+    "mailgun-js": "^0.22.0",
     "mongoose": "^8.7.3",
     "nodemon": "^3.1.7",
     "socket.io": "^4.8.1",
