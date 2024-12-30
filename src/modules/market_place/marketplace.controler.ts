@@ -3,6 +3,78 @@ import { Request, Response } from "express";
 import { marketplaceGetCategories, marketplaceServiceDB } from "./marketplace.service";
 import { TCategory } from "./marketplace.interface";
 
+
+// Send Email
+const marketplaceSendEmail = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      const { to, subject, text, html } = req.body;
+
+      if (!to || !subject || !text) {
+        res.status(400).json({ message: "To, subject, and text are required." });
+        return;
+      }
+
+      const result = await marketplaceServiceDB.marketplaceSendEmailService({
+        to,
+        subject,
+        text,
+        html,
+      });
+
+      if (result.error) {
+        res.status(400).json({ message: result.error });
+        return;
+      }
+
+      res.status(200).json({
+        message: "Email sent successfully.",
+        status: 200,
+        data: result.data,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+// Get Email (mock implementation - for demo purposes)
+const marketplaceGetEmail = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      const { userId } = req.query;
+
+      if (!userId) {
+        res.status(400).json({ message: "User ID is required." });
+        return;
+      }
+
+      const result = await marketplaceServiceDB.marketplaceGetEmailService(
+        userId as string
+      );
+
+      if (result.error) {
+        res.status(400).json({ message: result.error });
+        return;
+      }
+
+      res.status(200).json({
+        message: "Emails fetched successfully.",
+        status: 200,
+        data: result.data,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+
+
+
+
 // add category
 const marketplacePostCategory = expressAsyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -153,6 +225,9 @@ const marketplaceLikeUpdate = expressAsyncHandler(
   }
 );
 
+
+
+
 export const marketplaceControl = {
   marketplacePostEveryUser,
   marketplaceGetPostEveryUser,
@@ -160,5 +235,7 @@ export const marketplaceControl = {
   marketplaceLikeUpdate,
   marketplaceGetPostSingleUser,
   marketplacePostCategory,
-  marketplaceGetAllCategories
+  marketplaceGetAllCategories,
+  marketplaceSendEmail,
+  marketplaceGetEmail
 };

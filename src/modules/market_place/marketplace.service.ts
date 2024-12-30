@@ -1,6 +1,78 @@
 import { UserRegister } from "../user/user.model";
 import { marketplace } from "./marketplace.model";
 import Categories from "./category.model";
+import nodemailer from "nodemailer";
+
+const marketplaceSendEmailService = async ({
+  to,
+  subject,
+  text,
+  html,
+}: {
+  to: string;
+  subject: string;
+  text: string;
+  html?: string;
+}) => {
+  try {
+    // Configure the transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail", // or your email service provider
+      auth: {
+        user: process.env.EMAIL_USER, // your email
+        pass: process.env.EMAIL_PASS, // your email password or app password
+      },
+    });
+
+    // Define email options
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to,
+      subject,
+      text,
+      html, // Optional HTML content
+    };
+
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+
+    return {
+      message: "Email sent successfully.",
+      status: 200,
+      data: info.response,
+    };
+  } catch (error) {
+    console.error("Email Error:", error);
+    return { error: "Failed to send email." };
+  }
+};
+
+const marketplaceGetEmailService = async (userId: string) => {
+  try {
+    // Mock logic: Replace this with fetching emails from your database or an external email service
+    const emails = [
+      {
+        id: 1,
+        from: "example1@gmail.com",
+        subject: "Test Email 1",
+        text: "This is a test email",
+        userId,
+      },
+      {
+        id: 2,
+        from: "example2@gmail.com",
+        subject: "Test Email 2",
+        text: "This is another test email",
+        userId,
+      },
+    ];
+
+    return { data: emails, status: 200 };
+  } catch (error) {
+    console.error(error);
+    return { error: "Failed to fetch emails." };
+  }
+};
 
 // category
 const marketplaceCategoryPost = async (name: string) => {
@@ -43,10 +115,8 @@ export const marketplaceGetCategories = async () => {
   }
 };
 
-
 // marketplaceProductPostEveryUserDB
 const marketplaceProductPostEveryUserDB = async (data: any) => {
-
   try {
     const postRes = new marketplace.Post(data);
 
@@ -248,7 +318,7 @@ const marketplaceProductLikeUpdateDB = async (data: any) => {
 
     const post = await marketplace.Post.findById(postId);
     console.log("like update post", post);
-    
+
     console.log(
       "Trying to update post:",
       post?.likes.map((like) => like.isLiked)
@@ -305,4 +375,6 @@ export const marketplaceServiceDB = {
   marketplaceProductCommentUpdateDB,
   marketplaceProductGetSingleUserDB,
   marketplaceCategoryPost,
+  marketplaceSendEmailService,
+  marketplaceGetEmailService,
 };
