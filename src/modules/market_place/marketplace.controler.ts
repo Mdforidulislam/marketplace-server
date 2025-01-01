@@ -2,6 +2,9 @@ import expressAsyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import { marketplaceGetCategories, marketplaceServiceDB } from "./marketplace.service";
 import { TCategory } from "./marketplace.interface";
+import nodemailer from "nodemailer";
+import imap from 'imap-simple'
+import { convert } from 'html-to-text';
 
 // add category
 const marketplacePostCategory = expressAsyncHandler(
@@ -158,9 +161,28 @@ const marketplaceLikeUpdate = expressAsyncHandler(
 const marketplaceSendEmail = expressAsyncHandler(
   async (req: Request, res: Response) => {
     try {
-      const { email } = req.body;
+      // const { email } = req.body;
 
-      console.log(email)
+      const transporter = nodemailer.createTransport({
+        host:"smtp.hostinger.com",
+        port: 587,
+        secure: false,
+         auth: {
+             user: "info@megaproxy.us",
+             pass: "chinitotampa96@A"
+       }
+     })
+ 
+ 
+     const info = await transporter.sendMail({
+       from: 'info@megaproxy.us',
+       to: "sobujmath25@gmail.com", 
+       subject: "Hello ✔", 
+       text: "Hello world?", 
+       html: "<b>Hello world?</b>"
+     });
+
+     console.log(info,'check send mail successfully')
 
       res.status(200).json({
         message: "Successfully Get Data",
@@ -174,20 +196,76 @@ const marketplaceSendEmail = expressAsyncHandler(
 );
 
 // get email from user reponse 
-const marketplaceGetEmail = expressAsyncHandler(async (req: Request, res: Response) => {
+const marketplaceGetEmail = expressAsyncHandler(async (req, res) => {
   try {
-    const { email } = req.body;
-    console.log(email);
+      console.log('get request');
+      const { email } = req.body;
 
-    res.status(200).json({
-      message: "Successfully Get Data",
-      status: 200,
+      const config = {
+          imap: {
+              user: 'info@megaproxy.us',
+              password: 'chinitotampa96@A',
+              host: 'imap.hostinger.com',
+              port: 993,
+              tls: true,
+              authTimeout: 3000,
+          },
+      };
+
+      // Connect to the IMAP server
+      const connection = await imap.connect(config);
+      await connection.openBox('INBOX');
+
+      const searchCriteria = ['ALL']; // Fetch all emails
+      const fetchOptions = { bodies: ['HEADER', 'TEXT'], struct: true };
+
+      const messages = await connection.search(searchCriteria, fetchOptions);
+
+      const emails = messages.map((message) => {
+        const header = message.parts.find((part) => part.which === 'HEADER')?.body;
+        const rawBody = message.parts.find((part) => part.which === 'TEXT')?.body || '';
+
+        // Extract plain text or decode HTML if necessary
+        let cleanBody = rawBody;
+
+        if (rawBody.includes('Content-Type: text/html')) {
+            // Decode HTML to plain text
+            cleanBody = convert(rawBody, { wordwrap: false });
+        }
+
+        // Filter and clean the text to remove unnecessary data
+        cleanBody = cleanBody
+            .split('\n')
+            .filter(
+                (line : any) =>
+                    !line.startsWith('--') && // Remove multipart boundaries
+                    !line.startsWith('>') && // Remove quoted lines
+                    !line.match(/^On .*wrote:/) && // Remove "On [date] wrote:" lines
+                    line.trim() !== '' // Remove empty lines
+            )
+            .join('\n')
+            .trim();
+
+        return {
+            from: header?.from ? header.from[0] : 'Unknown',
+            subject: header?.subject ? header.subject[0] : 'No Subject',
+            body: cleanBody,
+        };
     });
+
+    console.log('Parsed Emails:', emails);
+
+      res.status(200).json({
+          message: 'Successfully Fetched Emails',
+          status: 200,
+          emails, // Return the simplified parsed emails
+      });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+      console.error('Error fetching emails:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 
 

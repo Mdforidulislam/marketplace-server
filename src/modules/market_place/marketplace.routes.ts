@@ -20,8 +20,6 @@ router.post("/get-email", marketplaceControl.marketplaceGetEmail);
 // add custom doamin or email to send email
 
 
-
-
 export const marketplaceRoutes = router;
 
 
