@@ -1,6 +1,6 @@
 // models/post.model.ts
 import { Schema, model, Document } from "mongoose";
-import { TPost } from "./marketplace.interface";
+import { TEmailSend, TPost } from "./marketplace.interface";
 import Category from "./category.model";
 
 // Mongoose schema for TPost
@@ -81,3 +81,29 @@ export const marketplace = {
   Post,
   Category,
 };
+
+
+
+
+
+
+// save email data set here 
+
+
+const emailSaveUser = new Schema<TEmailSend >({
+  send_email : {
+    type: String,
+    required: true,
+  },
+  recive_email: {
+    type: String,
+    required: true,
+  },
+  transactionId: {
+    type: String,
+    required: true,
+  },
+})
+
+
+export const EmailSendModel = model<TEmailSend>("EmailSend", emailSaveUser);

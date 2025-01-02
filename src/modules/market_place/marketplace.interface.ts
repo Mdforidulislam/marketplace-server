@@ -37,3 +37,10 @@ export interface TPost extends TPostDetails {
 export interface TCategory {
   name?: string;
 }
+
+
+export interface TEmailSend {
+  send_email: string;
+  recive_email: string;
+  transactionId: string;
+}

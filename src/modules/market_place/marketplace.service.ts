@@ -1,6 +1,18 @@
 import { UserRegister } from "../user/user.model";
-import { marketplace } from "./marketplace.model";
+import { EmailSendModel, marketplace } from "./marketplace.model";
 import Categories from "./category.model";
+import { getValue } from "node-global-storage";
+import { emailSendToUser } from "../../utils/marketplace/email";
+
+
+// marketplace geting email reponse type 
+
+ interface  EmailResponse {
+    conversaction_id: string | undefined;
+    senderEmail: string | undefined;
+    subject: string | undefined;
+    body: string | undefined;
+  }
 
 // category
 const marketplaceCategoryPost = async (name: string) => {
@@ -298,6 +310,55 @@ const marketplaceProductLikeUpdateDB = async (data: any) => {
   }
 };
 
+
+// save email conversation 
+const saveEmailConversationDB = async (data: any) => {
+  try{
+
+    const sendEmail = getValue("emailInfo");
+    console.log(data, sendEmail,'geting data form sending email reseponse and local storage');
+    
+    const email = new EmailSendModel(sendEmail);
+    await email.save();
+    return email;
+
+  }catch(error){
+    console.error(error);
+    return { error: "Internal Server Error" };
+  }
+}
+
+//  getign data on send again to user 
+
+const getEmailFromUserDB = async (data: EmailResponse) => {
+  try{
+
+
+    const emailRese = await EmailSendModel.findOne({
+      transactionId: data.conversaction_id,
+    })
+
+    
+    if (!emailRese) {
+      return { error: "Email record not found", status: 404 };
+    }
+
+    await emailSendToUser({
+      send_email: emailRese.recive_email || "",
+      recive_email: emailRese.send_email || "",
+      subject: data.subject || "",
+      text: data.body || "",
+    });
+
+
+
+  }catch(error){
+    console.error(error);
+    return { error: "Internal Server Error" };
+  }
+}
+
+
 export const marketplaceServiceDB = {
   marketplaceProductPostEveryUserDB,
   marketplaceProductGetEveryUserDB,
@@ -305,4 +366,6 @@ export const marketplaceServiceDB = {
   marketplaceProductCommentUpdateDB,
   marketplaceProductGetSingleUserDB,
   marketplaceCategoryPost,
+  saveEmailConversationDB,
+  getEmailFromUserDB
 };
