@@ -5,6 +5,15 @@ export interface TReview {
   rating: number;
   description: string;
 }
+export interface ParsedEmail {
+  subject: string;
+  from: string;
+  text: string;
+}
+
+export interface MaskedEmail {
+  (email: string): string;
+}
 
 export interface TLike {
   postId?: string;

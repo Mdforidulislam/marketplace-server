@@ -17,8 +17,11 @@ router.get("/get-all-categories", marketplaceControl.marketplaceGetAllCategories
 router.post("/send-email", marketplaceControl.marketplaceSendEmail);
 // email geting response
 router.post("/get-email", marketplaceControl.marketplaceGetEmail);
+<<<<<<< HEAD
 
 // add custom doamin or email to send email
+=======
+>>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
 
 
 export const marketplaceRoutes = router;

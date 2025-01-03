@@ -1,13 +1,15 @@
 import express, { NextFunction, Request, Response } from "express";
-import cors from 'cors'
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import { userRoutes } from "./modules/user/user.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { marketplaceRoutes } from "./modules/market_place/marketplace.routes";
-import cookieParser from "cookie-parser";
 
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
+<<<<<<< HEAD
 app.use(
   cors({
     origin: "https://megaproxy.us",
@@ -16,21 +18,24 @@ app.use(
 );
 const corsOptions = {
   origin: 'https://megaproxy.us',
+=======
+app.use(cors({
+  origin: 'http://localhost:5173',
+>>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'], 
-};
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
-// user route
-app.use("/api/v1",userRoutes);
-// authentication route 
-app.use("/api/v1",authRouter);
-
-// marketplace route
+// Routes
+app.use("/api/v1", userRoutes);
+app.use("/api/v1", authRouter);
+app.use("/api/v1", marketplaceRoutes);
+app.use("/api/v1", marketplaceRoutes);
 app.use("/api/v1", marketplaceRoutes);
 
 // Catch-all for undefined routes
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
+app.all("*", (req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     message: "Resource not found",
@@ -40,6 +45,5 @@ app.all("*", (req: Request, res: Response, next: NextFunction) => {
     },
   });
 });
-
 
 export default app;

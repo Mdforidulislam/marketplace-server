@@ -6,6 +6,78 @@ import { TCategory } from "./marketplace.interface";
 import { emailSendToUser, getEmailFromUser } from "../../utils/marketplace/email";
 
 
+
+// Send Email
+const marketplaceSendEmail = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      const { to, subject, text, html } = req.body;
+
+      if (!to || !subject || !text) {
+        res.status(400).json({ message: "To, subject, and text are required." });
+        return;
+      }
+
+      const result = await marketplaceServiceDB.marketplaceSendEmailService({
+        to,
+        subject,
+        text,
+        html,
+      });
+
+      if (result.error) {
+        res.status(400).json({ message: result.error });
+        return;
+      }
+
+      res.status(200).json({
+        message: "Email sent successfully.",
+        status: 200,
+        data: result.data,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+// Get Email (mock implementation - for demo purposes)
+const marketplaceGetEmail = expressAsyncHandler(
+  async (req: Request, res: Response) => {
+    try {
+      const { userId } = req.query;
+
+      if (!userId) {
+        res.status(400).json({ message: "User ID is required." });
+        return;
+      }
+
+      const result = await marketplaceServiceDB.marketplaceGetEmailService(
+        userId as string
+      );
+
+      if (result.error) {
+        res.status(400).json({ message: result.error });
+        return;
+      }
+
+      res.status(200).json({
+        message: "Emails fetched successfully.",
+        status: 200,
+        data: result.data,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+
+
+
+
 // add category
 const marketplacePostCategory = expressAsyncHandler(
   async (req: Request, res: Response): Promise<void> => {
@@ -157,6 +229,7 @@ const marketplaceLikeUpdate = expressAsyncHandler(
 );
 
 
+<<<<<<< HEAD
 // send email to user
 const marketplaceSendEmail = expressAsyncHandler(
   async (req: Request, res: Response) => {
@@ -213,6 +286,8 @@ cron.schedule('*/15 * * * *', async () => {
       console.error('Error executing scheduled email task:', error);
   }
 });
+=======
+>>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
 
 
 export const marketplaceControl = {
