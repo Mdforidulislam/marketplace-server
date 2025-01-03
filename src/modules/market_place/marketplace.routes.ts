@@ -1,6 +1,6 @@
 import express from 'express';
 import { marketplaceControl } from './marketplace.controler';
-
+import cron from 'node-cron'
 const router = express.Router();
 
 
@@ -17,6 +17,7 @@ router.get("/get-all-categories", marketplaceControl.marketplaceGetAllCategories
 router.post("/send-email", marketplaceControl.marketplaceSendEmail);
 // email geting response
 router.post("/get-email", marketplaceControl.marketplaceGetEmail);
+
 // add custom doamin or email to send email
 
 

@@ -91,13 +91,13 @@ export const getEmailFromUser = async () => {
         const subject = parsed.subject || 'No Subject';
         const body = parsed.text || 'No Body';
     
-        // console.log(`Message-ID: ${messageId}`);
-        // console.log(`In-Reply-To: ${inReplyTo}`);
-        // console.log(`References: ${references}`);
-        // console.log(`Conversation ID: ${conversationId}`);
-        // console.log(`From: ${from}`);
-        // console.log(`Subject: ${subject}`);
-        // console.log(`Body: ${body}`);
+        console.log(`Message-ID: ${messageId}`);
+        console.log(`In-Reply-To: ${inReplyTo}`);
+        console.log(`References: ${references}`);
+        console.log(`Conversation ID: ${conversationId}`);
+        console.log(`From: ${from}`);
+        console.log(`Subject: ${subject}`);
+        console.log(`Body: ${body}`);
 
         if(conversationId && messageId && inReplyTo && references){
           return {

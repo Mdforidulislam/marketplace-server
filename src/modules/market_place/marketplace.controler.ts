@@ -1,4 +1,5 @@
 import expressAsyncHandler from "express-async-handler";
+import cron from "node-cron";
 import { Request, response, Response } from "express";
 import { marketplaceGetCategories, marketplaceServiceDB } from "./marketplace.service";
 import { TCategory } from "./marketplace.interface";
@@ -182,7 +183,7 @@ const marketplaceSendEmail = expressAsyncHandler(
 // get email from user reponse 
 const marketplaceGetEmail = expressAsyncHandler(async (req, res) => {
   try {
-      
+
       const response = await getEmailFromUser();
 
       if (!response) {
@@ -203,7 +204,15 @@ const marketplaceGetEmail = expressAsyncHandler(async (req, res) => {
   }
 });
 
-
+// Schedule the cron job to run every 10 minutes
+cron.schedule('*/15 * * * *', async () => {
+  console.log('Running scheduled task for email fetching...');
+  try {
+      await getEmailFromUser();
+  } catch (error) {
+      console.error('Error executing scheduled email task:', error);
+  }
+});
 
 
 export const marketplaceControl = {
