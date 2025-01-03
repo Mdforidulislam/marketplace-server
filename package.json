@@ -23,21 +23,14 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-async-handler": "^1.2.0",
-<<<<<<< HEAD
     "html-to-text": "^9.0.5",
     "imap-simple": "^5.1.0",
-=======
-    "imap": "^0.8.19",
->>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
     "jsonwebtoken": "^9.0.2",
     "mailgun-js": "^0.22.0",
     "mailparser": "^3.7.2",
     "mongoose": "^8.7.3",
-<<<<<<< HEAD
     "node-cron": "^3.0.3",
     "node-global-storage": "^3.0.1",
-=======
->>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
     "socket.io": "^4.8.1",
@@ -52,11 +45,8 @@
     "@types/html-to-text": "^9.0.4",
     "@types/imap-simple": "^4.2.9",
     "@types/jsonwebtoken": "^9.0.7",
-<<<<<<< HEAD
     "@types/mailparser": "^3.4.5",
     "@types/node-cron": "^3.0.11",
-=======
->>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
     "@types/nodemailer": "^6.4.17",
     "@typescript-eslint/eslint-plugin": "^8.11.0",
     "@typescript-eslint/parser": "^8.11.0",

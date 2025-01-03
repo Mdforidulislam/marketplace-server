@@ -9,23 +9,16 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-<<<<<<< HEAD
-app.use(
-  cors({
-    origin: "https://megaproxy.us",
-    credentials: true, 
-  })
-);
+
 const corsOptions = {
-  origin: 'https://megaproxy.us',
-=======
-app.use(cors({
   origin: 'http://localhost:5173',
->>>>>>> bbd9cc718ebdf028320805b0f82c1ba5595a9c55
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+};
+
+app.use(cors(corsOptions));
+
 
 // Routes
 app.use("/api/v1", userRoutes);

@@ -7,10 +7,9 @@ import { setValue} from "node-global-storage";
 import config from "../../config/index";
 
 
-
 interface EmailInfo {
     send_email: string;
-    recive_email: string;
+    receive_email: string;
     subject: string;
     text: string;
 }
@@ -21,11 +20,9 @@ export const emailSendToUser = async (emailInfo : EmailInfo)=>{
              const conversationId = uuidv4();
               setValue('emailInfo', {
               send_email:   emailInfo.send_email,
-              recive_email:   emailInfo.recive_email,
+              receive_email:   emailInfo.receive_email,
               transactionId: conversationId,
               });
-
-             
 
               const transporter = nodemailer.createTransport({
                 host: config.Email_SMTP_HOST ,
@@ -40,7 +37,7 @@ export const emailSendToUser = async (emailInfo : EmailInfo)=>{
          
              const info = await transporter.sendMail({
               from: config.Email_EMAIL_USER,
-              to: emailInfo.recive_email,
+              to: emailInfo.receive_email,
               subject: emailInfo.subject,
               text: `${emailInfo.text}\n\n[Conversation ID: ${conversationId}]`,
               html: `${emailInfo.text}<br><br><small>[Conversation ID: ${conversationId}]</small>`,
