@@ -41,6 +41,6 @@ export interface TCategory {
 
 export interface TEmailSend {
   send_email: string;
-  recive_email: string;
+  receive_email: string;
   transactionId: string;
 }

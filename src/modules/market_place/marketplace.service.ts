@@ -344,8 +344,8 @@ const getEmailFromUserDB = async (data: EmailResponse) => {
     }
 
     await emailSendToUser({
-      send_email: emailRese.recive_email || "",
-      recive_email: emailRese.send_email || "",
+      send_email: emailRese.receive_email || "",
+      receive_email: emailRese.send_email || "",
       subject: data.subject || "",
       text: data.body || "",
     });

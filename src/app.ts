@@ -10,16 +10,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://megaproxy.us",
+    origin: "http://localhost:5173",
     credentials: true, 
   })
 );
-const corsOptions = {
-  origin: 'https://megaproxy.us',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'], 
-};
 
 // user route
 app.use("/api/v1",userRoutes);

@@ -95,7 +95,7 @@ const emailSaveUser = new Schema<TEmailSend >({
     type: String,
     required: true,
   },
-  recive_email: {
+  receive_email: {
     type: String,
     required: true,
   },
