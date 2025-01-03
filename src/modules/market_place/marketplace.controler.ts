@@ -163,6 +163,7 @@ const marketplaceSendEmail = expressAsyncHandler(
     try {
 
       const { emailInfo} = req.body;
+      console.log(emailInfo,'check the email info here!!')
 
       const repnse =  await emailSendToUser(emailInfo);
 
