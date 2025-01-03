@@ -1,5 +1,5 @@
 
-import nodemailer from "nodemailer";
+import nodemailer, { TransportOptions } from "nodemailer";
 import { connect } from 'imap-simple';
 import { simpleParser } from 'mailparser';
 import { v4 as uuidv4 } from 'uuid';
@@ -32,7 +32,7 @@ export const emailSendToUser = async (emailInfo : EmailInfo)=>{
                      user: config.Email_EMAIL_USER,
                      pass: config.Email_EMAIL_PASS
                }
-             })
+             }as TransportOptions)
          
          
              const info = await transporter.sendMail({
