@@ -1,0 +1,27 @@
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:46:00.888Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:47:00.558Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:48:00.479Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:49:00.375Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:50:00.178Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:52:00.390Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:53:00.378Z"}
+{"level":"info","message":"Cron job executed successfully: Successfully Fetched Emails","status":200,"timestamp":"2025-01-05T16:55:00.460Z"}
+{"level":"info","message":"Cron job executed successfully: Successfully Fetched Emails","status":200,"timestamp":"2025-01-05T16:56:36.247Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T16:58:04.507Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:00:01.056Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:01:04.370Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:02:03.808Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:03:03.771Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:04:04.633Z"}
+{"level":"info","message":"Cron job executed successfully: Successfully Fetched Emails","status":200,"timestamp":"2025-01-05T17:05:04.013Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:06:04.705Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:07:04.304Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:09:03.994Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:10:03.683Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:11:04.558Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:12:03.990Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:13:03.926Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:14:04.291Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:15:03.726Z"}
+{"level":"error","message":"Error in /get-email cron job:","timestamp":"2025-01-05T17:16:04.234Z"}
+{"level":"info","message":"Cron job executed successfully: Successfully Fetched Emails","result":{"error":"Email record not found","status":404},"status":200,"timestamp":"2025-01-05T17:17:04.821Z"}

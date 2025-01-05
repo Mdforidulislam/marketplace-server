@@ -18,5 +18,6 @@ export default {
     Email_EMAIL_USER : process.env.EMAIL_USER,
     Email_EMAIL_PASS : process.env.EMAIL_PASS,
 
+    SERVER_END_POINT :  process.env.SERVER_END_POINT,
 }
 

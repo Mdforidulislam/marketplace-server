@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { userRoutes } from "./modules/user/user.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { marketplaceRoutes } from "./modules/market_place/marketplace.routes";
+import { intitalizeJobs } from "./job/main.job";
 
 const app = express();
 
@@ -19,6 +20,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// cron - job handle 
+intitalizeJobs();
 
 // Routes
 app.use("/api/v1", userRoutes);

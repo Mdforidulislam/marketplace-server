@@ -53,65 +53,63 @@ export const emailSendToUser = async (emailInfo : EmailInfo)=>{
 
 
 
+
 export const getEmailFromUser = async () => {
   try {
-      const imapConfig = {
-          imap: {
-              user: config.Email_EMAIL_USER || "",
-              password: config.Email_EMAIL_PASS || "",
-              host: config.Email_IMAP_HOST || "",
-              port: Number(config.Email_IMAP_PORT) || 0,
-              tls: true,
-              authTimeout: 3000,
-          },
-      };
+    // IMAP configuration
+    const imapConfig = {
+      imap: {
+        user: config.Email_EMAIL_USER || "",
+        password: config.Email_EMAIL_PASS || "",
+        host: config.Email_IMAP_HOST || "",
+        port: Number(config.Email_IMAP_PORT) || 0,
+        tls: true,
+        authTimeout: 3000,
+      },
+    };
 
-      const connection: any = await connect(imapConfig);
-      await connection.openBox('INBOX');
+    // Establish connection
+    const connection: any = await connect(imapConfig);
+    await connection.openBox('INBOX');
 
-      const searchCriteria = ['UNSEEN']; // Fetch only unread emails
-      const fetchOptions = { bodies: '', markSeen: true };
+    // Search for unread emails
+    const searchCriteria = ['UNSEEN'];
+    const fetchOptions = { bodies: '', markSeen: true };
+    const messages = await connection.search(searchCriteria, fetchOptions);
 
-      const messages = await connection.search(searchCriteria, fetchOptions);
+    // Process each message
+    for (const message of messages) {
+      const parsed = await simpleParser(message.parts[0].body);
 
-      for (const message of messages) {
-        const parsed = await simpleParser(message.parts[0].body);
-    
-        // Extract unique values
-        const messageId = parsed.headers.get('message-id'); 
-        const inReplyTo = parsed.headers.get('in-reply-to');
-        const references = parsed.headers.get('references'); 
-        const conversationIdMatch = parsed.text?.match(/\[Conversation ID: (.+?)\]/); 
-        const conversationId = conversationIdMatch ? conversationIdMatch[1] : undefined;
-    
-        const from = parsed.from?.text || 'Unknown Sender';
-        const subject = parsed.subject || 'No Subject';
-        const body = parsed.text || 'No Body';
-    
-        console.log(`Message-ID: ${messageId}`);
-        console.log(`In-Reply-To: ${inReplyTo}`);
-        console.log(`References: ${references}`);
-        console.log(`Conversation ID: ${conversationId}`);
-        console.log(`From: ${from}`);
-        console.log(`Subject: ${subject}`);
-        console.log(`Body: ${body}`);
+      // Extract relevant data
+      const messageId = parsed.headers.get('message-id');
+      const inReplyTo = parsed.headers.get('in-reply-to');
+      const references = parsed.headers.get('references');
+      const conversationIdMatch = parsed.text?.match(/\[Conversation ID: (.+?)\]/);
+      const conversationId = conversationIdMatch ? conversationIdMatch[1] : undefined;
 
-        if(conversationId && messageId && inReplyTo && references){
-          return {
-            conversaction_id: conversationId,
-            senderEmail: from,
-            subject: subject,
-            body: body,
-          }
-        }
+      const from = parsed.from?.text || 'Unknown Sender';
+      const subject = parsed.subject || 'No Subject';
+      const body = parsed.text || 'No Body';
 
-        return false;
-      
-
+      // Validate extracted data
+      if (conversationId && messageId && inReplyTo && references) {
+        // Return the valid email data
+        connection.end();
+        return {
+          conversaction_id: conversationId,
+          senderEmail: from,
+          subject: subject,
+          body: body,
+        };
+      }
     }
-      connection.end();
+
+    // No valid emails found
+    connection.end();
+    return false;
   } catch (error) {
-      console.error('Error fetching emails:', error);
-      throw error;
+    console.error('Error fetching emails:', error);
+    return false; // Return false if an error occurs
   }
 };

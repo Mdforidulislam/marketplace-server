@@ -184,36 +184,34 @@ const marketplaceSendEmail = expressAsyncHandler(
 // get email from user reponse 
 const marketplaceGetEmail = expressAsyncHandler(async (req, res) => {
   try {
+    // Fetch email response
+    const response = await getEmailFromUser();
 
-      const response = await getEmailFromUser();
+    // Validate response
+    if (!response) {
+      console.error('Error: No response or invalid response received from getEmailFromUser');
+      res.status(400).json({ error: "Invalid email response" });
+      return; // Stop further execution
+    }
 
-      if (!response) {
-        res.status(400).json({ error: "Invalid email response" });
-        return;
-      }
+    // Proceed with valid response
+    console.log('Valid response received:', response);
 
-      const result = await marketplaceServiceDB.getEmailFromUserDB(response);
+    const result = await marketplaceServiceDB.getEmailFromUserDB(response);
 
-      res.status(200).json({
-          message: 'Successfully Fetched Emails',
-          status: 200,
-          data: result,
-      });
+    // Return the final result
+    res.status(200).json({
+      message: 'Successfully Fetched Emails',
+      status: 200,
+      result,
+    });
   } catch (error) {
-      console.error('Error fetching emails:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    // Catch unexpected errors
+    console.error('Error fetching emails:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-// Schedule the cron job to run every 10 minutes
-cron.schedule('*/15 * * * *', async () => {
-  console.log('Running scheduled task for email fetching...');
-  try {
-      await getEmailFromUser();
-  } catch (error) {
-      console.error('Error executing scheduled email task:', error);
-  }
-});
 
 
 export const marketplaceControl = {
