@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: 'https://marketplace-client-345y.onrender.com',
+  origin: 'https://marketplace-client-delta.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
